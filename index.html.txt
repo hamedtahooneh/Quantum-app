@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>سامانه ثبتی کوانتومی</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div id="app">
+        <!-- صفحه ورود -->
+        <div class="page active" data-page="login">
+            <div class="container">
+                <h1>🔐 ورود به سامانه</h1>
+                <input type="text" placeholder="نام کاربری" id="username" required>
+                <input type="tel" placeholder="۰۹۱۲۳۴۵۶۷۸۹" id="phone" pattern="09[0-9]{9}" required>
+                <button onclick="nextPage('payment')">ادامه</button>
+            </div>
+        </div>
+
+        <!-- صفحه پرداخت شبیه‌سازی شده -->
+        <div class="page" data-page="payment">
+            <div class="container">
+                <h1>💳 انتخاب طرح</h1>
+                <div class="plan" onclick="selectPlan('6month')">۶ ماهه • ۱۲۰,۰۰۰ تومان</div>
+                <div class="plan" onclick="selectPlan('1year')">۱ ساله • ۲۰۰,۰۰۰ تومان</div>
+                <button onclick="showSuccess()">پرداخت آزمایشی</button>
+            </div>
+        </div>
+    </div>
+    <script src="app.js"></script>
+</body>
+</html>

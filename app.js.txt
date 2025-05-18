@@ -1,0 +1,19 @@
+// سیستم مدیریت صفحات
+function nextPage(target) {
+    document.querySelectorAll('.page').forEach(page => {
+        page.classList.remove('active');
+    });
+    document.querySelector(`[data-page="${target}"]`).classList.add('active');
+}
+
+// سیستم انتخاب طرح
+function selectPlan(plan) {
+    alert(`✅ طرح ${plan} انتخاب شد! (این یک شبیه‌سازی است)`);
+}
+
+// پرداخت آزمایشی
+function showSuccess() {
+    alert("پرداخت با موفقیت شبیه‌سازی شد! 🎉");
+    nextPage('login');
+}
+
