@@ -1,0 +1,56 @@
+version: '3.8'
+
+services:
+  backend:
+    build: ./backend
+    ports:
+      - "5001:5001"
+    environment:
+      MONGO_URI: mongodb://mongo:27017/liana
+      JWT_SECRET: yourSecretKeyGoesHere # Ensure this matches your backend .env
+      PORT: 5001
+    volumes:
+      - ./backend:/usr/src/app # Mount host src folder for development
+      - /usr/src/app/node_modules # Do not mount node_modules
+    depends_on:
+      - mongo
+    networks:
+      - liana-network
+
+  frontend:
+    build: ./frontend
+    ports:
+      - "3000:80" # Map host port 3000 to container port 80 (Nginx default)
+    volumes:
+      - ./frontend/src:/app/src # Mount host src folder for development
+      - ./frontend/public:/app/public # Mount host public folder
+      - /app/node_modules # Do not mount node_modules from host
+    depends_on:
+      - backend
+    networks:
+      - liana-network
+    environment:
+      # Ensure the frontend can reach the backend via the Docker network
+      # This is usually handled by API calls to the backend's exposed port
+      # For CRA, REACT_APP_API_URL should point to the backend service if accessed server-side
+      # or to the host-exposed backend port if accessed client-side.
+      # For now, client-side calls to http://localhost:5001 should work.
+      # No specific env needed here for Nginx serving static files,
+      # but can be added if the entrypoint script needs them.
+      REACT_APP_API_URL: http://localhost:5001/api/auth # This is for client-side calls from browser
+
+  mongo:
+    image: mongo:latest
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo-data:/data/db
+    networks:
+      - liana-network
+
+volumes:
+  mongo-data:
+
+networks:
+  liana-network:
+    driver: bridge
